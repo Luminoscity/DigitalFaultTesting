@@ -1,0 +1,17 @@
+A1 : in std_logic;
+B1 : in std_logic;
+S1 : in std_logic;
+Z1 : out std_logic;
+
+s1,s2,s3 : signal std_logic;
+l : signal std_logic;
+m : signal std_logic;
+n : signal std_logic;
+
+begin arch
+   AND1:  AndGate2  (A1, s2, l);
+   s1:    InBranch  (S1);
+   NOT1:  NotGate1  (s3, n);
+   AND2:  AndGate2  (n, B1, m);
+   OR1:   OrGate2   (l, m, Z1);
+end arch;

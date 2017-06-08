@@ -1,0 +1,17 @@
+A2 : in std_logic;
+B2 : in std_logic;
+S2 : in std_logic;
+Z2 : out std_logic;
+
+s4,s5,s6 : signal std_logic;
+p : signal std_logic;
+q : signal std_logic;
+r : signal std_logic;
+
+begin arch
+   NAND1: NandGate2 (A2, s5, p);
+   s4:    InBranch  (S2);
+   NOT2:  NotGate1  (s6, r);
+   NAND2: NandGate2 (r, B2, q);
+   NAND3: NandGate2 (p, q, Z2);
+end arch;

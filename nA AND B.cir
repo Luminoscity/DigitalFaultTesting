@@ -1,0 +1,11 @@
+A : in std_logic;
+B : in std_logic;
+Z : out std_logic;
+b1,b2,b3 : signal std_logic;
+m : signal std_logic;
+
+begin arch
+   b1:    InBranch  (B);
+   NAND1: NandGate2 (A, b2, m);
+   AND1:  AndGate2  (m, b3, Z);
+end arch;

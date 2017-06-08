@@ -1,0 +1,13 @@
+A : in std_logic;
+B : in std_logic;
+Z : out std_logic;
+A1 : in std_logic;
+Z1 : out std_logic;
+Z2 : out std_logic;
+a1,a2,a3 : signal std_logic;
+
+begin arch
+   AND1: AndGate2 (A, B, Z);
+   a1: InBranch (A1);
+   a1: BranchOut (Z1, Z2);
+end arch;

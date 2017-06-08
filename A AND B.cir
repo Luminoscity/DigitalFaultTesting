@@ -1,0 +1,7 @@
+A : in std_logic;
+B : in std_logic;
+Z : out std_logic;
+
+begin arch
+   AND1: AndGate2 (A, B, Z);
+end arch;
