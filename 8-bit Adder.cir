@@ -1,0 +1,156 @@
+A0 : in std_logic;
+B0 : in std_logic;
+Cin : in std_logic;
+Cout : out std_logic;
+S0 : out std_logic;
+
+a0-1,a0-2,a0-3 : signal std_logic;
+b0-1,b0-2,b0-3 : signal std_logic;
+c0-1,c0-2,c0-3 : signal std_logic;
+x0-1,x0-2,x0-3 : signal std_logic;
+p0 : signal std_logic;
+q0 : signal std_logic;
+
+A1 : in std_logic;
+B1 : in std_logic;
+S1 : out std_logic;
+
+a1-1,a1-2,a1-3 : signal std_logic;
+b1-1,b1-2,b1-3 : signal std_logic;
+c1-1,c1-2,c1-3 : signal std_logic;
+x1-1,x1-2,x1-3 : signal std_logic;
+p1 : signal std_logic;
+q1 : signal std_logic;
+
+A2 : in std_logic;
+B2 : in std_logic;
+S2 : out std_logic;
+
+a2-1,a2-2,a2-3 : signal std_logic;
+b2-1,b2-2,b2-3 : signal std_logic;
+c2-1,c2-2,c2-3 : signal std_logic;
+x2-1,x2-2,x2-3 : signal std_logic;
+p2 : signal std_logic;
+q2 : signal std_logic;
+
+A3 : in std_logic;
+B3 : in std_logic;
+S3 : out std_logic;
+
+a3-1,a3-2,a3-3 : signal std_logic;
+b3-1,b3-2,b3-3 : signal std_logic;
+c3-1,c3-2,c3-3 : signal std_logic;
+x3-1,x3-2,x3-3 : signal std_logic;
+p3 : signal std_logic;
+q3 : signal std_logic;
+
+A4 : in std_logic;
+B4 : in std_logic;
+S4 : out std_logic;
+
+a4-1,a4-2,a4-3 : signal std_logic;
+b4-1,b4-2,b4-3 : signal std_logic;
+c4-1,c4-2,c4-3 : signal std_logic;
+x4-1,x4-2,x4-3 : signal std_logic;
+p4 : signal std_logic;
+q4 : signal std_logic;
+
+A5 : in std_logic;
+B5 : in std_logic;
+S5 : out std_logic;
+
+a5-1,a5-2,a5-3 : signal std_logic;
+b5-1,b5-2,b5-3 : signal std_logic;
+c5-1,c5-2,c5-3 : signal std_logic;
+x5-1,x5-2,x5-3 : signal std_logic;
+p5 : signal std_logic;
+q5 : signal std_logic;
+
+A6 : in std_logic;
+B6 : in std_logic;
+S6 : out std_logic;
+
+a6-1,a6-2,a6-3 : signal std_logic;
+b6-1,b6-2,b6-3 : signal std_logic;
+c6-1,c6-2,c6-3 : signal std_logic;
+x6-1,x6-2,x6-3 : signal std_logic;
+p6 : signal std_logic;
+q6 : signal std_logic;
+
+A7 : in std_logic;
+B7 : in std_logic;
+S7 : out std_logic;
+
+a7-1,a7-2,a7-3 : signal std_logic;
+b7-1,b7-2,b7-3 : signal std_logic;
+c7-1,c7-2,c7-3 : signal std_logic;
+x7-1,x7-2,x7-3 : signal std_logic;
+p7 : signal std_logic;
+q7 : signal std_logic;
+
+begin arch
+   XOR0-1:   XorGate2  (a0-2, b0-2, x0-1);
+   XOR0-2:   XorGate2  (x0-2, c0-2, S0);
+   AND0-1:   AndGate2  (c0-3, x0-3, p0);
+   AND0-2:   AndGate2  (a0-3, b0-3, q0);
+   OR0:      OrGate2   (p0, q0, c1-1);
+   a0-1:     InBranch  (A0);
+   b0-1:     InBranch  (B0);
+   c0-1:     InBranch  (Cin);
+   
+   XOR1-1:   XorGate2  (a1-2, b1-2, x1-1);
+   XOR1-2:   XorGate2  (x1-2, c1-2, S1);
+   AND1-1:   AndGate2  (c1-3, x1-3, p1);
+   AND1-2:   AndGate2  (a1-3, b1-3, q1);
+   OR1:      OrGate2   (p1, q1, c2-1);
+   a1-1:     InBranch  (A1);
+   b1-1:     InBranch  (B1);
+   
+   XOR2-1:   XorGate2  (a2-2, b2-2, x2-1);
+   XOR2-2:   XorGate2  (x2-2, c2-2, S2);
+   AND2-1:   AndGate2  (c2-3, x2-3, p2);
+   AND2-2:   AndGate2  (a2-3, b2-3, q2);
+   OR2:      OrGate2   (p2, q2, c3-1);
+   a2-1:     InBranch  (A2);
+   b2-1:     InBranch  (B2);
+   
+   XOR3-1:   XorGate2  (a3-2, b3-2, x3-1);
+   XOR3-2:   XorGate2  (x3-2, c3-2, S3);
+   AND3-1:   AndGate2  (c3-3, x3-3, p3);
+   AND3-2:   AndGate2  (a3-3, b3-3, q3);
+   OR3:      OrGate2   (p3, q3, c4-1);
+   a3-1:     InBranch  (A3);
+   b3-1:     InBranch  (B3);
+   
+   XOR4-1:   XorGate2  (a4-2, b4-2, x4-1);
+   XOR4-2:   XorGate2  (x4-2, c4-2, S4);
+   AND4-1:   AndGate2  (c4-3, x4-3, p4);
+   AND4-2:   AndGate2  (a4-3, b4-3, q4);
+   OR4:      OrGate2   (p4, q4, c5-1);
+   a4-1:     InBranch  (A4);
+   b4-1:     InBranch  (B4);
+   
+   XOR5-1:   XorGate2  (a5-2, b5-2, x5-1);
+   XOR5-2:   XorGate2  (x5-2, c5-2, S5);
+   AND5-1:   AndGate2  (c5-3, x5-3, p5);
+   AND5-2:   AndGate2  (a5-3, b5-3, q5);
+   OR5:      OrGate2   (p5, q5, c6-1);
+   a5-1:     InBranch  (A5);
+   b5-1:     InBranch  (B5);
+   
+   XOR6-1:   XorGate2  (a6-2, b6-2, x6-1);
+   XOR6-2:   XorGate2  (x6-2, c6-2, S6);
+   AND6-1:   AndGate2  (c6-3, x6-3, p6);
+   AND6-2:   AndGate2  (a6-3, b6-3, q6);
+   OR6:      OrGate2   (p6, q6, c7-1);
+   a6-1:     InBranch  (A6);
+   b6-1:     InBranch  (B6);
+   
+   XOR7-1:   XorGate2  (a7-2, b7-2, x7-1);
+   XOR7-2:   XorGate2  (x7-2, c7-2, S7);
+   AND7-1:   AndGate2  (c7-3, x7-3, p7);
+   AND7-2:   AndGate2  (a7-3, b7-3, q7);
+   OR7:      OrGate2   (p7, q7, Cout);
+   a7-1:     InBranch  (A7);
+   b7-1:     InBranch  (B7);
+end arch;

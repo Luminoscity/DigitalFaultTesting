@@ -647,17 +647,17 @@ Single_Output_Gate *Circuit::getOtherGateByName(string name)
    return found ? toReturn : NULL;
 }
 
-vector<unsigned> Circuit::FindTestsForFault(string faultyWire,
+vector<uint64_t> Circuit::FindTestsForFault(string faultyWire,
                                            bool faultyValue, float timeLimit) {
    clock_t t1 = clock();
    unsigned nInputs = numInputs();
    unsigned nOutputs = numOutputs();
    vector<bool> inputs(nInputs, false);
    unsigned limit = (unsigned)pow(2.0, nInputs);
-   vector<unsigned> results;
+   vector<uint64_t> results;
    bool inTime = true;
 
-   for (unsigned input = 0; input < limit && inTime; ++input) {
+   for (uint64_t input = 0; input < limit && inTime; ++input) {
       for (unsigned i = 0; i < nInputs; ++i)
          inputs[nInputs - i - 1] = (input >> i) & 0x1;
 
@@ -670,7 +670,7 @@ vector<unsigned> Circuit::FindTestsForFault(string faultyWire,
          t2 = clock();
          inTime = (((float)t2 - (float)t1) / CLOCKS_PER_SEC) < timeLimit;
          if (inTime) {
-            int result1 = 0;
+            uint64_t result1 = 0;
             for (unsigned i = 0; i < nOutputs; ++i)
                result1 += (out[i] ? (unsigned)pow(10, nOutputs - i - 1) : 0);
 
@@ -682,10 +682,10 @@ vector<unsigned> Circuit::FindTestsForFault(string faultyWire,
                t2 = clock();
                inTime = (((float)t2 - (float)t1) / CLOCKS_PER_SEC) < timeLimit;
                if (inTime) {
-                  int result2 = 0;
+                  uint64_t result2 = 0;
                   for (unsigned i = 0; i < nOutputs; ++i)
                      result2 += (out[i] ?
-                     (unsigned)pow(10, nOutputs - i - 1) : 0);
+                                (unsigned)pow(10, nOutputs - i - 1) : 0);
 
                   if (result1 != result2)
                      results.push_back(input);
@@ -699,28 +699,28 @@ vector<unsigned> Circuit::FindTestsForFault(string faultyWire,
    return results;
 }
 
-vector<unsigned> Circuit::FindTestsForFault(string faultyWire,
+vector<uint64_t> Circuit::FindTestsForFault(string faultyWire,
                                             bool faultyValue) {
    unsigned nInputs = numInputs();
    unsigned nOutputs = numOutputs();
    vector<bool> inputs(nInputs, false);
    unsigned limit = (unsigned)pow(2.0, nInputs);
-   vector<unsigned> results;
+   vector<uint64_t> results;
 
-   for (unsigned input = 0; input < limit; ++input) {
+   for (uint64_t input = 0; input < limit; ++input) {
       for (unsigned i = 0; i < nInputs; ++i)
          inputs[nInputs - i - 1] = (input >> i) & 0x1;
 
       setInputs(inputs);
 
       vector<bool> out = evaluateAll();
-      int result1 = 0;
+      uint64_t result1 = 0;
       for (unsigned i = 0; i < nOutputs; ++i)
          result1 += (out[i] ? (unsigned)pow(10.0, nOutputs - i - 1) : 0);
 
       makeWireFaultyByName(faultyWire, faultyValue);
       out = evaluateAll();
-      int result2 = 0;
+      uint64_t result2 = 0;
       for (unsigned i = 0; i < nOutputs; ++i)
          result2 += (out[i] ? (unsigned)pow(10.0, nOutputs - i - 1) : 0);
       makeWireNotFaultyByName(faultyWire);
@@ -733,7 +733,7 @@ vector<unsigned> Circuit::FindTestsForFault(string faultyWire,
    return results;
 }
 
-vector<string> Circuit::FindFaultsDetected(unsigned test) {
+vector<string> Circuit::FindFaultsDetected(uint64_t test) {
    unsigned nInputs = numInputs();
    unsigned nOutputs = numOutputs();
    vector<bool> inputs(nInputs, false);
@@ -746,13 +746,13 @@ vector<string> Circuit::FindFaultsDetected(unsigned test) {
 
    for (auto& wire: wires) {
       vector<bool> out = evaluateAll();
-      int result1 = 0;
+      uint64_t result1 = 0;
       for (unsigned i = 0; i < nOutputs; ++i)
          result1 += (out[i] ? (unsigned)pow(10.0, nOutputs - i - 1) : 0);
 
       makeWireFaultyByName(wire->name(), false);
       out = evaluateAll();
-      int result2 = 0;
+      uint64_t result2 = 0;
       for (unsigned i = 0; i < nOutputs; ++i)
          result2 += (out[i] ? (unsigned)pow(10.0, nOutputs - i - 1) : 0);
 

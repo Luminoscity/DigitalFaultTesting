@@ -23,6 +23,7 @@
 #include <time.h>
 #include <string>
 #include <iostream>
+#include <iomanip>
 #include <algorithm>
 #include <bitset>
 #include <vector>
@@ -33,8 +34,8 @@ using std::set;
 
 
 void CheckArgs(int argc, char *argv[]);
-string binary(unsigned x, int width);
-void DeleteDominants(vector<vector<unsigned> > &sets, vector<string>
+string binary(uint64_t x, int width);
+void DeleteDominants(vector<vector<uint64_t> > &sets, vector<string>
                      &testStrings);
 
 int main(int argc, char *argv[]) {
@@ -44,14 +45,17 @@ int main(int argc, char *argv[]) {
    bool printHex = argc > 3 && tolower(argv[3][0]) == 'h';
 
    auto wireNames = circuit.getWireNames();
-   vector<vector<unsigned> > tests;
+   vector<vector<uint64_t> > tests;
    int ins = circuit.numInputs();
+
+   cout << std::internal << std::setfill('0');
 
    printf("Wire Name    Stuck-At Tests");
    char nameBuffer[25];
    vector<string> testStrings;
    float timeLimit = (float)atof(argv[2]);
 
+   auto t1 = clock();
    for (auto& x : wireNames) {
       if (timeLimit == 0.0)
          tests.push_back(circuit.FindTestsForFault(x, false));
@@ -64,7 +68,8 @@ int main(int argc, char *argv[]) {
       if (tests.back().size() > 0)
          for (auto& y : tests.back())
             if (printHex)
-               printf("%0*X ", (ins - 1) / 4 + 1, y);
+               cout << std::hex << std::uppercase
+                    << std::setw((ins - 1) / 4 + 1) << y << std::dec << " ";
             else
                printf("%s ", binary(y, ins).c_str());
       else
@@ -81,14 +86,16 @@ int main(int argc, char *argv[]) {
       if (tests.back().size() > 0)
          for (auto& y : tests.back())
             if (printHex)
-               printf("%0*X ", (ins - 1) / 4 + 1, y);
+               cout << std::hex << std::uppercase
+                    << std::setw((ins - 1) / 4 + 1) << y << std::dec << " ";
             else
                printf("%s ", binary(y, ins).c_str());
       else
-         printf("redundant");
+         printf("redundant"); 
    }
 
    DeleteDominants(tests, testStrings);
+   
 
    printf("\n\nNon-Dominant Fault Tests:");
    printf("\nWire Name    Stuck-At Tests");
@@ -97,30 +104,42 @@ int main(int argc, char *argv[]) {
       if (tests[i].size() > 0)
          for (auto& y : tests[i])
             if (printHex)
-               printf("%0*X ", (ins - 1) / 4 + 1, y);
+               cout << std::hex << std::uppercase
+                    << std::setw((ins - 1) / 4 + 1) << y << std::dec << " ";
             else
                printf("%s ", binary(y, ins).c_str());
       else
          printf("redundant");
    }
+   
+   auto t2 = clock();
+   float duration = ((float)t2 - (float)t1) / CLOCKS_PER_SEC;
+   cout << "\n\nReduced set generated in " << duration << " seconds.\n";
+   cout << "Inputs: " << circuit.numInputs()
+        << "\nOutputs: " << circuit.numOutputs()
+        << "\nWires: " << circuit.numWires()
+        << "\nGates: " << circuit.numGates() << "\n";
 
-   set<unsigned> reducedSet;
+   set<uint64_t> reducedSet;
    for (auto& x: tests)
       for (auto& y: x)
          reducedSet.insert(y);
-   cout << "\n\nReduced Test Set (" << reducedSet.size() << " tests): ";
+   cout << "Reduced Test Set (" << reducedSet.size() << " tests): ";
    for (auto& x: reducedSet) {
       if (printHex)
-         printf("%0*X ", (ins - 1) / 4 + 1, x);
+         cout << std::hex << std::uppercase
+              << std::setw((ins - 1) / 4 + 1) << x << " ";
       else
          printf("%s ", binary(x, ins).c_str());
    }
 
    printf("\n\nTest%*s Faults Detected\n", (ins > 3 ? ins - 4 : 2), "");
    for (auto& x : reducedSet) {
-      if (printHex)
-         printf("%0*X %*s", (ins - 1) / 4 + 1, x,
-               (ins > 23 ? 0 : 5 - (ins - 1) / 4), "");
+      if (printHex) {
+         cout << std::hex << std::uppercase
+              << std::setw((ins - 1) / 4 + 1) << x << std::dec;
+         printf(" %*s", (ins > 23 ? 0 : 5 - (ins - 1) / 4), "");
+      }
       else
          printf("%s %*s", binary(x, ins).c_str(), (ins > 5 ? 0 : 6 - ins), "");
 
@@ -152,7 +171,7 @@ void CheckArgs(int argc, char *argv[]) {
    }
 }
 
-string binary(unsigned x, int width) {
+string binary(uint64_t x, int width) {
    int max = sizeof(unsigned) * 8;
    string toReturn = "";
    for (int i = 0; i < width && i < max; ++i)
@@ -161,7 +180,7 @@ string binary(unsigned x, int width) {
    return toReturn;
 }
 
-void DeleteDominants(vector<vector<unsigned> > &sets, vector<string>
+void DeleteDominants(vector<vector<uint64_t> > &sets, vector<string>
                      &testStrings) {
    for (unsigned i = 0; i < sets.size(); ++i) {
       if (sets[i].size() > 0) {

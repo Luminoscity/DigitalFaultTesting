@@ -150,10 +150,10 @@ public:
    Input_Gate *getInputByName(string name);
    Output_Gate *getOutputByName(string name);
    Single_Output_Gate *getOtherGateByName(string name);
-   vector<unsigned> FindTestsForFault(string faultyWire, bool faultyValue);
-   vector<unsigned> FindTestsForFault(string faultyWire, bool faultyValue,
+   vector<uint64_t> FindTestsForFault(string faultyWire, bool faultyValue);
+   vector<uint64_t> FindTestsForFault(string faultyWire, bool faultyValue,
                                       float timeLimit);
-   vector<string> FindFaultsDetected(unsigned test);
+   vector<string> FindFaultsDetected(uint64_t test);
 };
 
 class One_Input_Gate : public Single_Output_Gate {

@@ -1,0 +1,61 @@
+A0 : in std_logic;
+B0 : in std_logic;
+Cin : in std_logic;
+Cout : out std_logic;
+S0 : out std_logic;
+
+a0-1,a0-2,a0-3 : signal std_logic;
+b0-1,b0-2,b0-3 : signal std_logic;
+c0-1,c0-2,c0-3 : signal std_logic;
+x0-1,x0-2,x0-3 : signal std_logic;
+p0 : signal std_logic;
+q0 : signal std_logic;
+
+A1 : in std_logic;
+B1 : in std_logic;
+S1 : out std_logic;
+
+a1-1,a1-2,a1-3 : signal std_logic;
+b1-1,b1-2,b1-3 : signal std_logic;
+c1-1,c1-2,c1-3 : signal std_logic;
+x1-1,x1-2,x1-3 : signal std_logic;
+p1 : signal std_logic;
+q1 : signal std_logic;
+
+A2 : in std_logic;
+B2 : in std_logic;
+S2 : out std_logic;
+
+a2-1,a2-2,a2-3 : signal std_logic;
+b2-1,b2-2,b2-3 : signal std_logic;
+c2-1,c2-2,c2-3 : signal std_logic;
+x2-1,x2-2,x2-3 : signal std_logic;
+p2 : signal std_logic;
+q2 : signal std_logic;
+
+begin arch
+   XOR0-1:   XorGate2  (a0-2, b0-2, x0-1);
+   XOR0-2:   XorGate2  (x0-2, c0-2, S0);
+   AND0-1:   AndGate2  (c0-3, x0-3, p0);
+   AND0-2:   AndGate2  (a0-3, b0-3, q0);
+   OR0:      OrGate2   (p0, q0, c1-1);
+   a0-1:     InBranch  (A0);
+   b0-1:     InBranch  (B0);
+   c0-1:     InBranch  (Cin);
+   
+   XOR1-1:   XorGate2  (a1-2, b1-2, x1-1);
+   XOR1-2:   XorGate2  (x1-2, c1-2, S1);
+   AND1-1:   AndGate2  (c1-3, x1-3, p1);
+   AND1-2:   AndGate2  (a1-3, b1-3, q1);
+   OR1:      OrGate2   (p1, q1, c2-1);
+   a1-1:     InBranch  (A1);
+   b1-1:     InBranch  (B1);
+   
+   XOR2-1:   XorGate2  (a2-2, b2-2, x2-1);
+   XOR2-2:   XorGate2  (x2-2, c2-2, S2);
+   AND2-1:   AndGate2  (c2-3, x2-3, p2);
+   AND2-2:   AndGate2  (a2-3, b2-3, q2);
+   OR2:      OrGate2   (p2, q2, Cout);
+   a2-1:     InBranch  (A2);
+   b2-1:     InBranch  (B2);
+end arch;
